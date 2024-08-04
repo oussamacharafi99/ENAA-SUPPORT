@@ -21,9 +21,11 @@ public class Ticket {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column()
     private LocalDate dateCreation;
+
     @Column()
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
+
     @Column()
     private String TechnicalDescription;
 
