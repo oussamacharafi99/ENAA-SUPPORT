@@ -5,7 +5,9 @@ import com.ENAA_SUPPORT.Dto.JwtDto;
 import com.ENAA_SUPPORT.Model.Person;
 import com.ENAA_SUPPORT.Model.Technician;
 import com.ENAA_SUPPORT.Model.User;
+import com.ENAA_SUPPORT.Repository.TechnicianRepo;
 import com.ENAA_SUPPORT.Service.PersonService;
+import com.ENAA_SUPPORT.Service.TechicianService;
 import com.ENAA_SUPPORT.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,12 @@ import java.util.stream.Collectors;
 public class AuthController {
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private TechicianService techicianService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -41,13 +49,13 @@ public class AuthController {
 
     @PostMapping("/user")
     public String saveUser(@RequestBody User user) {
-        personService.saveUser(user);
+        userService.saveUser(user);
         return "the user is saved";
     }
 
     @PostMapping("/technician")
     public String saveTechnician(@RequestBody Technician technician) {
-        personService.saveTechnician(technician);
+        techicianService.saveTechnician(technician);
         return "the technician is saved";
     }
 }
