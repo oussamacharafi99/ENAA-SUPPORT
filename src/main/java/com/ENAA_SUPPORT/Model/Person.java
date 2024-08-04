@@ -12,10 +12,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
-   private int id;
-   private String username;
-   private String password;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nom;
+    private String email;
+    private String motDePasse;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class)
