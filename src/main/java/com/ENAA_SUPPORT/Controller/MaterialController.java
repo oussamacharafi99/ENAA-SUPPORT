@@ -23,8 +23,8 @@ public class MaterialController {
         return materialService.getAllMaterials();
     }
 
-    @GetMapping("get_by_id")
-    public Material getMaterialById(@RequestParam Integer id) {
+    @GetMapping("get_by_id/{id}")
+    public Material getMaterialById(@PathVariable Integer id) {
         return materialService.getMaterialById(id);
     }
 

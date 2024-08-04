@@ -32,7 +32,10 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
-                                .anyRequest().permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/auth/user","/api/auth/technician").hasRole("ADMIN")
+                                .requestMatchers("/api/material/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin.disable());
                 http.cors(Customizer.withDefaults());

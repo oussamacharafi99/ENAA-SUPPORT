@@ -3,6 +3,8 @@ package com.ENAA_SUPPORT.Controller;
 import com.ENAA_SUPPORT.Config.JwtAuth;
 import com.ENAA_SUPPORT.Dto.JwtDto;
 import com.ENAA_SUPPORT.Model.Person;
+import com.ENAA_SUPPORT.Model.Technician;
+import com.ENAA_SUPPORT.Model.User;
 import com.ENAA_SUPPORT.Service.PersonService;
 import com.ENAA_SUPPORT.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +37,17 @@ public class AuthController {
         Integer userId = person.getId();
         String token = JwtAuth.generateToken(personLogin.getUsername(), roles);
         return new JwtDto(userId , token);
+    }
+
+    @PostMapping("/user")
+    public String saveUser(@RequestBody User user) {
+        personService.saveUser(user);
+        return "the user is saved";
+    }
+
+    @PostMapping("/technician")
+    public String saveTechnician(@RequestBody Technician technician) {
+        personService.saveTechnician(technician);
+        return "the technician is saved";
     }
 }

@@ -26,7 +26,7 @@ public class Person implements UserDetails {
     private Integer id;
     private String username;
     private String email;
-    private String motDePasse;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class)
@@ -43,7 +43,7 @@ public class Person implements UserDetails {
 
     @Override
     public String getPassword() {
-        return motDePasse;
+        return password;
     }
 
     @Override
