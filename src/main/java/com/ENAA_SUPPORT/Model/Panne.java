@@ -13,7 +13,8 @@ public class Panne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String description;
+
+    @Column()
     private String date;
 
     @ManyToOne

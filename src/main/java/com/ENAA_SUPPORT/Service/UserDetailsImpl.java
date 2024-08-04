@@ -1,9 +1,6 @@
 package com.ENAA_SUPPORT.Service;
-
 import com.ENAA_SUPPORT.Model.Person;
 import com.ENAA_SUPPORT.Repository.PersonRepo;
-import com.spring.Hello_Events.model.User;
-import com.spring.Hello_Events.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

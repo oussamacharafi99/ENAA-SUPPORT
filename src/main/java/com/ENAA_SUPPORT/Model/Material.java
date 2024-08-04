@@ -3,6 +3,7 @@ package com.ENAA_SUPPORT.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,9 +18,14 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column()
     private String name;
+    @Column()
     private String description;
+    @Column()
     private String etat;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column()
     private LocalDate insert_date;
 
     @ManyToOne
