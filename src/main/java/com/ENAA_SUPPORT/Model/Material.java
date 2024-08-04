@@ -1,5 +1,6 @@
 package com.ENAA_SUPPORT.Model;
 
+import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,8 +23,10 @@ public class Material {
     private String name;
     @Column()
     private String description;
+
     @Column()
-    private String etat;
+    @Enumerated(EnumType.STRING)
+    private MaterialEtat etat;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column()

@@ -1,4 +1,5 @@
 package com.ENAA_SUPPORT.Service;
+import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.ENAA_SUPPORT.Model.Material;
 import com.ENAA_SUPPORT.Repository.MaterialRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class MaterialService {
     }
 
     public void addMaterial(Material material) {
+        material.setEtat(MaterialEtat.NEW);
         materialRepo.save(material);
     }
 

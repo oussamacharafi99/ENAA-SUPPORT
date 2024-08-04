@@ -1,7 +1,10 @@
 package com.ENAA_SUPPORT.Service;
+import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.ENAA_SUPPORT.Enum.TicketStatus;
+import com.ENAA_SUPPORT.Model.Material;
 import com.ENAA_SUPPORT.Model.Panne;
 import com.ENAA_SUPPORT.Model.Ticket;
+import com.ENAA_SUPPORT.Repository.MaterialRepo;
 import com.ENAA_SUPPORT.Repository.PanneRepo;
 import com.ENAA_SUPPORT.Repository.TicketRepo;
 import com.ENAA_SUPPORT.Repository.UserRepo;
@@ -20,6 +23,9 @@ public class TicketService {
     @Autowired
     private PanneRepo panneRepo;
 
+    @Autowired
+    private MaterialRepo materialRepo;
+
     public List<Ticket> getAllTickets() {
         return ticketRepo.findAll();
     }
@@ -29,6 +35,10 @@ public class TicketService {
     }
 
     public void addTicket(Ticket ticket) {
+        Material material = materialRepo.findById(ticket.getMaterial().getId()).orElseThrow();
+        material.setEtat(MaterialEtat.OUT_SERVICE);
+        materialRepo.save(material);
+//      ---** for panne **--  //
         Panne panne = new Panne();
         panne.setMaterial(ticket.getMaterial());
         panne.setDate(LocalDate.now());
@@ -46,8 +56,15 @@ public class TicketService {
         Ticket ticket1 = ticketRepo.findById(id).orElseThrow();
         ticket1.setStatus(TicketStatus.FIXED);
         ticket1.setTechnicalDescription(ticket.getTechnicalDescription());
+
+        Material material = materialRepo.findById(ticket1.getMaterial().getId()).orElseThrow();
+        material.setEtat(MaterialEtat.REPAIR);
+        materialRepo.save(material);
+
         return ticketRepo.save(ticket1);
     }
+
+
     public Ticket updateTicketByAdmin(Ticket ticket , Integer id) {
         Ticket ticket1 = ticketRepo.findById(id).orElseThrow();
         ticket1.setTechnician(ticket.getTechnician());
