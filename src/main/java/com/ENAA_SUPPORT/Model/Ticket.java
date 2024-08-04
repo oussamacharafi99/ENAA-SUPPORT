@@ -14,7 +14,7 @@ public class Ticket {
     private Integer id;
     private String description;
     private String dateCreation;
-    private String etat;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -23,4 +23,9 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "technician_id")
     private Technician technician;
+
+    @ManyToOne
+    @JoinColumn(name = "Material_id")
+    private Material material;
+
 }

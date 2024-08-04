@@ -14,8 +14,7 @@ public class Panne {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String description;
-    private String dateSignalement;
-    private String etat;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "material_id")
