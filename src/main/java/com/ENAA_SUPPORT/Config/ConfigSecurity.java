@@ -2,6 +2,7 @@ package com.ENAA_SUPPORT.Config;
 import com.ENAA_SUPPORT.Service.UserDetailsImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,6 +36,10 @@ public class ConfigSecurity {
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/user","/api/auth/technician").hasRole("ADMIN")
                                 .requestMatchers("/api/material/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/api/ticket/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.PUT,"/api/ticket/**").hasAnyRole("ADMIN", "TECHNICIAN")
+                                .requestMatchers("/api/ticket/**").hasAnyRole("USER", "TECHNICIAN" , "ADMIN")
+
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin.disable());

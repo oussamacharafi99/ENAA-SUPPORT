@@ -1,6 +1,10 @@
 package com.ENAA_SUPPORT.Model;
+import com.ENAA_SUPPORT.Enum.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,9 +16,17 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column()
     private String description;
-    private String dateCreation;
-    private String status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column()
+    private LocalDate dateCreation;
+    @Column()
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
+    @Column()
+    private String TechnicalDescription;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")

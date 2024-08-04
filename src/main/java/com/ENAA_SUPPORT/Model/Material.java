@@ -24,6 +24,7 @@ public class Material {
     private String description;
     @Column()
     private String etat;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column()
     private LocalDate insert_date;
