@@ -73,4 +73,8 @@ public class TicketService {
         return ticketRepo.save(ticket1);
     }
 
+    public List<Ticket> getTicketsByTechnicienId(Integer id) {
+        return ticketRepo.findTicketsByTechnicianId(id);
+    }
+
 }
