@@ -40,8 +40,5 @@ public class Material {
     @JsonIgnore
     private List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "material")
-    @JsonIgnore
-    private List<Panne> pannes;
 
 }

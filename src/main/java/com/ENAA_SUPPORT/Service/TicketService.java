@@ -39,11 +39,11 @@ public class TicketService {
         material.setEtat(MaterialEtat.OUT_SERVICE);
         materialRepo.save(material);
 //      ---** for panne **--  //
-        Panne panne = new Panne();
-        panne.setMaterial(ticket.getMaterial());
-        panne.setDate(LocalDate.now());
-        panne.setDescription(ticket.getDescription());
-        panneRepo.save(panne);
+//        Panne panne = new Panne();
+//        panne.setMaterial(ticket.getMaterial());
+//        panne.setDate(LocalDate.now());
+//        panne.setDescription(ticket.getDescription());
+//        panneRepo.save(panne);
 //      ---** for ticket **--  //
         ticket.setDateCreation(LocalDate.now());
         ticket.setTechnician(null);
@@ -60,6 +60,7 @@ public class TicketService {
         Material material = materialRepo.findById(ticket1.getMaterial().getId()).orElseThrow();
         material.setEtat(MaterialEtat.REPAIR);
         materialRepo.save(material);
+
 
         return ticketRepo.save(ticket1);
     }
