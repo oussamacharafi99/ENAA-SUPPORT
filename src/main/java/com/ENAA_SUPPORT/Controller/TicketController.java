@@ -43,4 +43,9 @@ public class TicketController {
         return "the ticket is updated successfully from admin !";
     }
 
+    @GetMapping("get_technician_tickets/{id}")
+    public List<Ticket> getAllTicketsByTechnician(@PathVariable Integer id) {
+        return ticketService.getTicketsByTechnicienId(id);
+    }
+
 }

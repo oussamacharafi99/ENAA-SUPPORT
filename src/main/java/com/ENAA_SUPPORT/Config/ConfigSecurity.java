@@ -40,6 +40,9 @@ public class ConfigSecurity {
                                 .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_admin/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_technician/**").hasRole("TECHNICIAN")
                                 .requestMatchers("/api/ticket/**").hasAnyRole("USER", "TECHNICIAN" , "ADMIN")
+                                .requestMatchers("/api/ticket/get_technician_tickets/**").hasRole("TECHNICIAN")
+                                .requestMatchers("/api/panne/**").hasRole("ADMIN")
+
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin.disable());

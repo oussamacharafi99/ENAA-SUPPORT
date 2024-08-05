@@ -18,4 +18,5 @@ public class Technician extends Person {
     @OneToMany(mappedBy = "technician")
     @JsonIgnore
     private List<Ticket> tickets;
+
 }

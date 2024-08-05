@@ -29,6 +29,9 @@ public class Ticket {
     @Column()
     private String TechnicalDescription;
 
+    @ManyToOne
+    @JoinColumn(name = "panne_id")
+    private Panne panne;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
