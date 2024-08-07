@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,8 +20,10 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column()
     private String name;
+
     @Column()
     private String description;
 
@@ -40,5 +43,7 @@ public class Material {
     @JsonIgnore
     private List<Ticket> tickets;
 
-
+    @OneToMany(mappedBy = "material")
+    @JsonIgnore
+    private List<MaterialPanne> materialPannes;
 }
