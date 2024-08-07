@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,4 +35,8 @@ public class Panne {
     @OneToMany(mappedBy = "panne")
     @JsonIgnore
     private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "panne")
+    @JsonIgnore
+    private List<MaterialPanne> materialPannes;
 }
