@@ -35,4 +35,6 @@ public class MaterialPanne {
     private LocalDate endDate;
 
     private String description;
+
+    private String TechnicianDescription;
 }
