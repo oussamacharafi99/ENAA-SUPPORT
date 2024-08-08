@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface MaterialPanneRepo extends JpaRepository<MaterialPanne, Integer> {
     @Query("SELECT COALESCE(MAX(mp.id.historiesId), 0) FROM MaterialPanne mp")
     Integer findMaxHistoryId();
+
+    MaterialPanne findByMaterialId(Integer materialId);
 }
