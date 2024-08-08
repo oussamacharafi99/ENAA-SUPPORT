@@ -1,8 +1,15 @@
 package com.ENAA_SUPPORT.Controller;
 import com.ENAA_SUPPORT.Model.Material;
+import com.ENAA_SUPPORT.Model.MaterialPanne;
+import com.ENAA_SUPPORT.Service.MaterialPannePdfService;
 import com.ENAA_SUPPORT.Service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -11,6 +18,25 @@ import java.util.List;
 public class MaterialController {
     @Autowired
     private MaterialService materialService;
+
+    @Autowired
+    private MaterialPannePdfService materialPannePdfService;
+
+    @GetMapping("/{id}/panne/pdf")
+    public ResponseEntity<byte[]> generateMaterialPannePdf(@PathVariable Integer id) {
+        Material material = materialService.getMaterialById(id);
+        List<MaterialPanne> materialPannes = material.getMaterialPannes();
+
+        ByteArrayInputStream pdf = materialPannePdfService.generateMaterialPannePdf(material, materialPannes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=material_panne_history_" + id + ".pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf.readAllBytes());
+    }
 
     @PostMapping("add")
     public String addMaterial(@RequestBody Material material) {
