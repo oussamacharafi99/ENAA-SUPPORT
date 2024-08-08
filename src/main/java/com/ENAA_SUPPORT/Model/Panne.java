@@ -28,7 +28,6 @@ public class Panne {
     @Column(name = "description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private PanneType type;
 
