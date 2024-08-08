@@ -1,5 +1,6 @@
 package com.ENAA_SUPPORT.Model;
 
+import com.ENAA_SUPPORT.Enum.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +35,7 @@ public class MaterialPanne {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    @Column(name = "description")
     private String description;
 
-    private String TechnicianDescription;
 }

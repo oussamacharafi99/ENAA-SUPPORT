@@ -3,6 +3,8 @@ import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.ENAA_SUPPORT.Enum.TicketStatus;
 import com.ENAA_SUPPORT.Model.*;
 import com.ENAA_SUPPORT.Repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 @Service
 public class TicketService {
 
+    private static final Logger log = LoggerFactory.getLogger(TicketService.class);
     @Autowired
     private TicketRepo ticketRepo;
 
@@ -72,9 +75,9 @@ public class TicketService {
         ticket1.setStatus(TicketStatus.FIXED);
         ticket1.setTechnicalDescription(ticket.getTechnicalDescription());
 
-        MaterialPanne materialPanne = materialPanneRepo.findById(ticket1.getMaterial().getId()).orElseThrow(() -> new RuntimeException("Material not found"));
+        MaterialPanne materialPanne = materialPanneRepo.findByMaterialId(ticket1.getMaterial().getId());
+        System.out.println("===----000--== : " + materialPanne.getStartDate());
         materialPanne.setEndDate(LocalDate.now());
-        materialPanne.setTechnicianDescription(ticket.getTechnicalDescription());
         materialPanneRepo.save(materialPanne);
 
 
