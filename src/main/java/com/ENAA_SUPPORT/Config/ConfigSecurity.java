@@ -42,6 +42,7 @@ public class ConfigSecurity {
 //                                .requestMatchers("/api/ticket/**").hasAnyRole("USER", "TECHNICIAN" , "ADMIN")
 //                                .requestMatchers("/api/ticket/get_technician_tickets/**").hasRole("TECHNICIAN")
 //                                .requestMatchers("/api/panne/**").hasRole("ADMIN")
+//                                .requestMatchers("/api/get_Person").hasRole("ADMIN")
 
                                 .anyRequest().permitAll()
                 )

@@ -60,6 +60,7 @@ public class MaterialController {
         return "the material is removed";
     }
 
+
     @PutMapping("update/{id}")
     public String updateMaterial(@PathVariable Integer id, @RequestBody Material material) {
         materialService.updateMaterial(material , id);

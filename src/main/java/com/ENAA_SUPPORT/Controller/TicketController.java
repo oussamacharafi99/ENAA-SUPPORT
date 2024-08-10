@@ -1,5 +1,6 @@
 package com.ENAA_SUPPORT.Controller;
 
+import com.ENAA_SUPPORT.Dto.TicketDto;
 import com.ENAA_SUPPORT.Model.Ticket;
 import com.ENAA_SUPPORT.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class TicketController {
     }
 
     @GetMapping("get_technician_tickets/{id}")
-    public List<Ticket> getAllTicketsByTechnician(@PathVariable Integer id) {
+    public List<TicketDto> getAllTicketsByTechnician(@PathVariable Integer id) {
         return ticketService.getTicketsByTechnicienId(id);
     }
 

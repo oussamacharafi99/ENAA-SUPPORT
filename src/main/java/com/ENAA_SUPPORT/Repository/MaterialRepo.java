@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaterialRepo extends JpaRepository<Material, Integer> {
+    long count();
 }
