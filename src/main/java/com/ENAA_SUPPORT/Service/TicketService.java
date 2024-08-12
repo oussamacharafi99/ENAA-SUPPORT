@@ -44,8 +44,8 @@ public class TicketService {
 
     public void addTicket(Ticket ticket) {
         /*----for update material state------*/
-        Material material = materialRepo.findById(ticket.getMaterial().getId()).orElseThrow(() -> new RuntimeException("Material not found"));
-        Panne panne = panneRepo.findById(ticket.getPanne().getId()).orElseThrow(() -> new RuntimeException("Panne not found"));
+        Material material = materialRepo.findById(ticket.getMaterial().getId()).orElseThrow();
+        Panne panne = panneRepo.findById(ticket.getPanne().getId()).orElseThrow();
         material.setEtat(MaterialEtat.OUT_SERVICE);
         materialRepo.save(material);
 

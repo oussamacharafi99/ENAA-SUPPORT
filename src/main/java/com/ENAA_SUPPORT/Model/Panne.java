@@ -29,7 +29,7 @@ public class Panne {
     private String description;
 
     @Column(name = "type")
-    private PanneType type;
+    private String type;
 
     @OneToMany(mappedBy = "panne")
     @JsonIgnore
