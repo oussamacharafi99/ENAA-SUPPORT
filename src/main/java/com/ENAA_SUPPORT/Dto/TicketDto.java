@@ -18,6 +18,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketDto {
+    private Integer id;
+
+    private String userName;
 
     private String description;
 

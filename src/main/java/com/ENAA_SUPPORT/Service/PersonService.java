@@ -1,5 +1,6 @@
 package com.ENAA_SUPPORT.Service;
 
+import com.ENAA_SUPPORT.Dto.PersonDto;
 import com.ENAA_SUPPORT.Enum.Role;
 import com.ENAA_SUPPORT.Model.Person;
 import com.ENAA_SUPPORT.Model.Technician;
@@ -33,5 +34,33 @@ public class PersonService {
         roles.add(Role.ROLE_USER);
         roles.add(Role.ROLE_TECHNICIAN);
         return personRepo.findByRolesIn(roles);
+    }
+
+    public List<PersonDto> getPersons() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_USER);
+        return personRepo.findAll().stream()
+                .filter(person -> person.getRoles().equals(roles))
+                .map(person -> {
+                    PersonDto personDto = new PersonDto();
+                    personDto.setId(person.getId());
+                    personDto.setUsername(person.getUsername());
+                    return personDto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<PersonDto> getTechnicians() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_TECHNICIAN);
+        return personRepo.findAll().stream()
+                .filter(person -> person.getRoles().equals(roles))
+                .map(person -> {
+                    PersonDto personDto = new PersonDto();
+                    personDto.setId(person.getId());
+                    personDto.setUsername(person.getUsername());
+                    return personDto;
+                })
+                .collect(Collectors.toList());
     }
 }

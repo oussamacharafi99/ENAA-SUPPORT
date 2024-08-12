@@ -1,9 +1,11 @@
 package com.ENAA_SUPPORT.Service;
 import com.ENAA_SUPPORT.Dto.TicketDto;
+import com.ENAA_SUPPORT.Dto.TicketsTechnicianIdDto;
 import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.ENAA_SUPPORT.Enum.TicketStatus;
 import com.ENAA_SUPPORT.Model.*;
 import com.ENAA_SUPPORT.Repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +30,9 @@ public class TicketService {
 
     @Autowired
     private MaterialPanneRepo materialPanneRepo;
+
+    @Autowired
+    private TechnicianRepo technicianRepo;
 
     public List<Ticket> getAllTickets() {
         return ticketRepo.findAll();
@@ -65,12 +69,17 @@ public class TicketService {
     }
 
 
-    public Ticket updateTicketByAdmin(Ticket ticket , Integer id) {
-        Ticket ticket1 = ticketRepo.findById(id).orElseThrow();
-        ticket1.setTechnician(ticket.getTechnician());
-        ticket1.setStatus(TicketStatus.PROCESSING);
-        return ticketRepo.save(ticket1);
+    public TicketsTechnicianIdDto updateTicketByAdmin(TicketsTechnicianIdDto ticketDto, Integer id) {
+        return ticketRepo.findById(id).map(ticket -> {
+            Technician technician = technicianRepo.findById(ticketDto.getTicketsTechnicianId())
+                    .orElseThrow(() -> new EntityNotFoundException("Technician not found"));
+            ticket.setTechnician(technician);
+            ticket.setStatus(TicketStatus.PROCESSING);
+            ticketRepo.save(ticket);
+            return ticketDto;
+        }).orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
     }
+
 
     public Ticket updateTicketByTechnicien(Ticket ticket , Integer id) {
         Ticket ticket1 = ticketRepo.findById(id).orElseThrow();
@@ -91,10 +100,21 @@ public class TicketService {
     }
 
     public List<TicketDto> getTicketsByTechnicienId(Integer id) {
+        return ticketRepo.findTicketsByTechnicianId(id).stream().map(ticket -> {
+            TicketDto dto = new TicketDto();
+            dto.setUserName(ticket.getUser().getUsername());
+            dto.setDescription(ticket.getDescription());
+            dto.setDateCreation(ticket.getDateCreation());
+            dto.setStatus(ticket.getStatus());
+            dto.setTechnicalDescription(ticket.getTechnicalDescription());
+            dto.setMaterialName(ticket.getMaterial().getName());
+            dto.setPanneType(ticket.getPanne().getType());
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
-        List<Ticket> tickets = ticketRepo.findTicketsByTechnicianId(id);
-
-        List<TicketDto> ticketDtos = tickets.stream().map(ticket -> {
+    public List<TicketDto> getTicketsByUserId(Integer id) {
+        return ticketRepo.findAllByUserId(id).stream().map(ticket -> {
             TicketDto dto = new TicketDto();
             dto.setDescription(ticket.getDescription());
             dto.setDateCreation(ticket.getDateCreation());
@@ -105,10 +125,50 @@ public class TicketService {
             dto.setPanneType(ticket.getPanne().getType());
             return dto;
         }).collect(Collectors.toList());
-
-        return ticketDtos;
     }
 
+    public List<TicketDto> TicketStatusFailure(){
+        return ticketRepo.findTicketsByStatus(TicketStatus.FAILURE).stream().map(ticket -> {
+            TicketDto ticketD = new TicketDto();
+            ticketD.setId(ticket.getId());
+            ticketD.setUserName(ticket.getUser().getUsername());
+            ticketD.setDescription(ticket.getDescription());
+            ticketD.setDateCreation(ticket.getDateCreation());
+            ticketD.setStatus(ticket.getStatus());
+            ticketD.setMaterialName(ticket.getMaterial().getName());
+            ticketD.setPanneType(ticket.getPanne().getType());
+            return ticketD;
+        }).collect(Collectors.toList());
+    }
 
+    public List<TicketDto> TicketStatusFixed(){
+        return ticketRepo.findTicketsByStatus(TicketStatus.FIXED).stream().map(ticket -> {
+            TicketDto ticketD = new TicketDto();
+            ticketD.setUserName(ticket.getUser().getUsername());
+            ticketD.setDescription(ticket.getDescription());
+            ticketD.setDateCreation(ticket.getDateCreation());
+            ticketD.setStatus(ticket.getStatus());
+            ticketD.setTechnicalName(ticket.getTechnician().getUsername());
+            ticketD.setTechnicalDescription(ticket.getTechnicalDescription());
+            ticketD.setMaterialName(ticket.getMaterial().getName());
+            ticketD.setPanneType(ticket.getPanne().getType());
+            return ticketD;
+        }).collect(Collectors.toList());
+    }
+
+    public List<TicketDto> TicketStatusProcessing(){
+        return ticketRepo.findTicketsByStatus(TicketStatus.PROCESSING).stream().map(ticket -> {
+            TicketDto ticketD = new TicketDto();
+            ticketD.setUserName(ticket.getUser().getUsername());
+            ticketD.setDescription(ticket.getDescription());
+            ticketD.setDateCreation(ticket.getDateCreation());
+            ticketD.setStatus(ticket.getStatus());
+            ticketD.setTechnicalName(ticket.getTechnician().getUsername());
+            ticketD.setTechnicalDescription(ticket.getTechnicalDescription());
+            ticketD.setMaterialName(ticket.getMaterial().getName());
+            ticketD.setPanneType(ticket.getPanne().getType());
+            return ticketD;
+        }).collect(Collectors.toList());
+    }
 
 }

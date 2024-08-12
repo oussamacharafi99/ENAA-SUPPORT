@@ -1,6 +1,7 @@
 package com.ENAA_SUPPORT.Controller;
 
 import com.ENAA_SUPPORT.Dto.TicketDto;
+import com.ENAA_SUPPORT.Dto.TicketsTechnicianIdDto;
 import com.ENAA_SUPPORT.Model.Ticket;
 import com.ENAA_SUPPORT.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,6 @@ public class TicketController {
         return "the ticket is added successfully";
     }
 
-    @GetMapping("getall")
-    public List<Ticket> getAllTickets() {
-        return ticketService.getAllTickets();
-    }
-
     @GetMapping("get_by_id/{id}")
     public Ticket getTicketById(@PathVariable int id) {
         return ticketService.getTicketById(id);
@@ -39,7 +35,7 @@ public class TicketController {
     }
 
     @PutMapping("/update_by_admin/{id}")
-    public String updateTicketByAdmin(@PathVariable Integer id, @RequestBody Ticket ticket) {
+    public String updateTicketByAdmin(@PathVariable Integer id, @RequestBody TicketsTechnicianIdDto ticket) {
         ticketService.updateTicketByAdmin(ticket , id);
         return "the ticket is updated successfully from admin !";
     }
@@ -47,6 +43,26 @@ public class TicketController {
     @GetMapping("get_technician_tickets/{id}")
     public List<TicketDto> getAllTicketsByTechnician(@PathVariable Integer id) {
         return ticketService.getTicketsByTechnicienId(id);
+    }
+
+    @GetMapping("get_user_tickets/{id}")
+    public List<TicketDto> getAllTicketsByUser(@PathVariable Integer id) {
+        return ticketService.getTicketsByUserId(id);
+    }
+
+    @GetMapping("get_tickets_failure")
+    public List<TicketDto> TicketStatusFailure() {
+        return ticketService.TicketStatusFailure();
+    }
+
+    @GetMapping("get_tickets_fixed")
+    public List<TicketDto> TicketStatusFixed() {
+        return ticketService.TicketStatusFixed();
+    }
+
+    @GetMapping("get_tickets_processing")
+    public List<TicketDto> TicketStatusProcessing() {
+        return ticketService.TicketStatusProcessing();
     }
 
 }

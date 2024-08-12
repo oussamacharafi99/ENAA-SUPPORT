@@ -2,6 +2,7 @@ package com.ENAA_SUPPORT.Controller;
 
 import com.ENAA_SUPPORT.Config.JwtAuth;
 import com.ENAA_SUPPORT.Dto.JwtDto;
+import com.ENAA_SUPPORT.Dto.PersonDto;
 import com.ENAA_SUPPORT.Enum.Role;
 import com.ENAA_SUPPORT.Model.Person;
 import com.ENAA_SUPPORT.Model.Technician;
@@ -69,6 +70,16 @@ public class AuthController {
     @GetMapping("get_Person")
     public List<Person> getAll(){
         return personService.findAll();
+    }
+
+    @GetMapping("get_persons_dto")
+    public List<PersonDto> getAllDto(){
+        return personService.getPersons();
+    }
+
+    @GetMapping("get_technicians")
+    public List<PersonDto> getTechnicians(){
+        return personService.getTechnicians();
     }
 
 }
