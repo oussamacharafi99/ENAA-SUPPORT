@@ -33,18 +33,17 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
-//                                .requestMatchers("/api/auth/login").permitAll()
-//                                .requestMatchers("/api/auth/user","/api/auth/technician").hasRole("ADMIN")
-//                                .requestMatchers("/api/material/**").hasRole("ADMIN")
-//                                .requestMatchers(HttpMethod.POST,"/api/ticket/**").hasRole("USER")
-//                                .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_admin/**").hasRole("ADMIN")
-//                                .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_technician/**").hasRole("TECHNICIAN")
-//                                .requestMatchers("/api/ticket/**").hasAnyRole("USER", "TECHNICIAN" , "ADMIN")
-//                                .requestMatchers("/api/ticket/get_technician_tickets/**").hasRole("TECHNICIAN")
-//                                .requestMatchers("/api/panne/**").hasRole("ADMIN")
-//                                .requestMatchers("/api/get_Person").hasRole("ADMIN")
-
-                                .anyRequest().permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/person/**").hasRole("ADMIN")
+                                .requestMatchers("/api/material/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/api/ticket/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_admin/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/api/ticket/update_by_technician/**").hasRole("TECHNICIAN")
+                                .requestMatchers("/api/ticket/**").hasAnyRole("USER", "TECHNICIAN" , "ADMIN")
+                                .requestMatchers("/api/ticket/get_technician_tickets/**","/api/ticket/get_tickets_processing").hasRole("TECHNICIAN")
+                                .requestMatchers("/api/ticket/get_tickets_failure","/api/ticket/get_tickets_fixed","/api/ticket/get_tickets_processing").hasRole("ADMIN")
+                                .requestMatchers("/api/panne/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin.disable());
                 http.cors(Customizer.withDefaults());

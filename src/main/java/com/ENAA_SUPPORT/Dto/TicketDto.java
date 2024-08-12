@@ -36,6 +36,6 @@ public class TicketDto {
 
     private  String materialName;
 
-    private PanneType panneType;
+    private String panneType;
 
 }

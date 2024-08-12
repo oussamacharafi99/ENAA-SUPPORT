@@ -31,13 +31,6 @@ public class AuthController {
     private PersonService personService;
 
     @Autowired
-    private TechicianService techicianService;
-
-    @Autowired
-    private UserService userService;
-
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
 
@@ -55,31 +48,5 @@ public class AuthController {
         return new JwtDto(userId , token);
     }
 
-    @PostMapping("/user")
-    public String saveUser(@RequestBody User user) {
-        userService.saveUser(user);
-        return "the user is saved";
-    }
-
-    @PostMapping("/technician")
-    public String saveTechnician(@RequestBody Technician technician) {
-        techicianService.saveTechnician(technician);
-        return "the technician is saved";
-    }
-
-    @GetMapping("get_Person")
-    public List<Person> getAll(){
-        return personService.findAll();
-    }
-
-    @GetMapping("get_persons_dto")
-    public List<PersonDto> getAllDto(){
-        return personService.getPersons();
-    }
-
-    @GetMapping("get_technicians")
-    public List<PersonDto> getTechnicians(){
-        return personService.getTechnicians();
-    }
 
 }
