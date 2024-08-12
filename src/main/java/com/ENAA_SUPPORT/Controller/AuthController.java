@@ -2,9 +2,11 @@ package com.ENAA_SUPPORT.Controller;
 
 import com.ENAA_SUPPORT.Config.JwtAuth;
 import com.ENAA_SUPPORT.Dto.JwtDto;
+import com.ENAA_SUPPORT.Enum.Role;
 import com.ENAA_SUPPORT.Model.Person;
 import com.ENAA_SUPPORT.Model.Technician;
 import com.ENAA_SUPPORT.Model.User;
+import com.ENAA_SUPPORT.Repository.PersonRepo;
 import com.ENAA_SUPPORT.Repository.TechnicianRepo;
 import com.ENAA_SUPPORT.Service.PersonService;
 import com.ENAA_SUPPORT.Service.TechicianService;
@@ -13,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +34,7 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -58,4 +65,10 @@ public class AuthController {
         techicianService.saveTechnician(technician);
         return "the technician is saved";
     }
+
+    @GetMapping("get_Person")
+    public List<Person> getAll(){
+        return personService.findAll();
+    }
+
 }

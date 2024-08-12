@@ -1,4 +1,5 @@
 package com.ENAA_SUPPORT.Service;
+import com.ENAA_SUPPORT.Dto.TicketDto;
 import com.ENAA_SUPPORT.Enum.MaterialEtat;
 import com.ENAA_SUPPORT.Enum.TicketStatus;
 import com.ENAA_SUPPORT.Model.*;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -88,8 +90,25 @@ public class TicketService {
         return ticketRepo.save(ticket1);
     }
 
-    public List<Ticket> getTicketsByTechnicienId(Integer id) {
-        return ticketRepo.findTicketsByTechnicianId(id);
+    public List<TicketDto> getTicketsByTechnicienId(Integer id) {
+
+        List<Ticket> tickets = ticketRepo.findTicketsByTechnicianId(id);
+
+        List<TicketDto> ticketDtos = tickets.stream().map(ticket -> {
+            TicketDto dto = new TicketDto();
+            dto.setDescription(ticket.getDescription());
+            dto.setDateCreation(ticket.getDateCreation());
+            dto.setStatus(ticket.getStatus());
+            dto.setTechnicalName(ticket.getTechnician().getUsername());
+            dto.setTechnicalDescription(ticket.getTechnicalDescription());
+            dto.setMaterialName(ticket.getMaterial().getName());
+            dto.setPanneType(ticket.getPanne().getType());
+            return dto;
+        }).collect(Collectors.toList());
+
+        return ticketDtos;
     }
+
+
 
 }

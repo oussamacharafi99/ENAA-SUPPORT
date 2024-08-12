@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -21,6 +24,14 @@ public class PersonService {
         return personRepo.findByUsername(username);
     }
 
+    public List<Person> findAll() {
+//        return personRepo.findAll().stream()
+//                .filter(person -> person.getRoles().contains(Role.ROLE_USER) || person.getRoles().contains(Role.ROLE_TECHNICIAN))
+//                .collect(Collectors.toList());
 
-
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ROLE_USER);
+        roles.add(Role.ROLE_TECHNICIAN);
+        return personRepo.findByRolesIn(roles);
+    }
 }
