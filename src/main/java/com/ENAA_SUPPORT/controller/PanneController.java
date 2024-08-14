@@ -26,4 +26,9 @@ public class PanneController {
     }
 
 
+    @DeleteMapping("delete/{id}")
+    public String deletePanne(@PathVariable Integer id) {
+        return panneService.deletePanneByAdmin(id);
+    }
+
 }

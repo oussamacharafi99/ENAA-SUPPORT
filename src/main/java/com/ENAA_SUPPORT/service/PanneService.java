@@ -1,4 +1,5 @@
 package com.ENAA_SUPPORT.service;
+import com.ENAA_SUPPORT.exeptions.EnaaSupportException;
 import com.ENAA_SUPPORT.model.Panne;
 import com.ENAA_SUPPORT.repository.PanneRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class PanneService {
         panne1.setDate(panne.getDate());
         panne1.setType(panne.getType());
         return panneRepo.save(panne1);
+    }
+
+    public String deletePanneByAdmin(Integer id) {
+        panneRepo.deleteById(id);
+        return "Panne deleted Successfully";
     }
 }
 
