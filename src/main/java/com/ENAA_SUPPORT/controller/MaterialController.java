@@ -18,42 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("api/material")
 public class MaterialController {
+
     @Autowired
     private MaterialService materialService;
-
-    @Autowired
-    private MaterialPannePdfService materialPannePdfService;
-
-    @GetMapping("/{id}/panne/pdf")
-    public ResponseEntity<byte[]> generateMaterialPannePdf(@PathVariable Integer id) {
-        Material material = materialService.getMaterialById(id);
-
-        if (material == null) {
-            System.out.println("Material not found for ID: " + id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        List<MaterialPanne> materialPannes = material.getMaterialPannes();
-
-        if (materialPannes == null || materialPannes.isEmpty()) {
-            System.out.println("No pannes found for Material ID: " + id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
-        try (ByteArrayInputStream pdf = materialPannePdfService.generateMaterialPannePdf(material, materialPannes)) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "inline; filename=material_panne_history_" + id + ".pdf");
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentType(MediaType.APPLICATION_PDF)
-                    .body(pdf.readAllBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
 
 
     @PostMapping("add")

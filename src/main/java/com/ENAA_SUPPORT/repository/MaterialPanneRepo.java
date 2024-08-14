@@ -12,4 +12,5 @@ public interface MaterialPanneRepo extends JpaRepository<MaterialPanne, Integer>
 
     @Query(value = "SELECT * FROM material_panne WHERE material_id=? AND panne_id=? AND end_date is null ",nativeQuery = true)
     MaterialPanne findByCompositeId(Integer mid,Integer pid);
+
 }

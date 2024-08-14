@@ -4,6 +4,7 @@ import com.ENAA_SUPPORT.dto.TicketsTechnicalDescriptionDto;
 import com.ENAA_SUPPORT.dto.TicketsTechnicianIdDto;
 import com.ENAA_SUPPORT.enums.MaterialEtat;
 import com.ENAA_SUPPORT.enums.TicketStatus;
+import com.ENAA_SUPPORT.exeptions.EnaaSupportException;
 import com.ENAA_SUPPORT.model.*;
 import com.ENAA_SUPPORT.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,12 +41,12 @@ public class TicketService {
     }
 
     public Ticket getTicketById(int id) {
-        return ticketRepo.findById(id).get();
+        return ticketRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Ticket with id " + id + " not found"));
     }
 
     public void addTicket(Ticket ticket) {
         /*----for update material state------*/
-        Material material = materialRepo.findById(ticket.getMaterial().getId()).orElseThrow();
+        Material material = materialRepo.findById(ticket.getMaterial().getId()).orElseThrow(() -> new EnaaSupportException("Material not found"));
         Panne panne = panneRepo.findById(ticket.getPanne().getId()).orElseThrow();
         material.setEtat(MaterialEtat.OUT_SERVICE);
         materialRepo.save(material);
@@ -73,22 +74,23 @@ public class TicketService {
     public TicketsTechnicianIdDto updateTicketByAdmin(TicketsTechnicianIdDto ticketDto, Integer id) {
         return ticketRepo.findById(id).map(ticket -> {
             Technician technician = technicianRepo.findById(ticketDto.getTicketsTechnicianId())
-                    .orElseThrow(() -> new EntityNotFoundException("Technician not found"));
+                    .orElseThrow(() -> new EnaaSupportException("Technician not found"));
             ticket.setTechnician(technician);
             ticket.setStatus(TicketStatus.PROCESSING);
             ticketRepo.save(ticket);
             return ticketDto;
-        }).orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
+        }).orElseThrow(() -> new EnaaSupportException("Ticket not found"));
     }
 
 
     public Ticket updateTicketByTechnicien(TicketsTechnicalDescriptionDto ticket , Integer id) {
-        Ticket ticket1 = ticketRepo.findById(id).orElseThrow();
+        Ticket ticket1 = ticketRepo.findById(id).orElseThrow(() -> new EnaaSupportException("Ticket not found with id " + id));
         ticket1.setStatus(TicketStatus.FIXED);
         ticket1.setTechnicalDescription(ticket.getTechnicalDescription());
 
         MaterialPanne materialPanne = materialPanneRepo.findByCompositeId(ticket1.getMaterial().getId(),ticket1.getPanne().getId());
             materialPanne.setEndDate(LocalDate.now());
+            materialPanne.setDescription(ticket1.getDescription());
             materialPanneRepo.save(materialPanne);
 
         Material material = materialRepo.findById(ticket1.getMaterial().getId()).orElseThrow();

@@ -35,6 +35,7 @@ public class ConfigSecurity {
                         expressionInterceptUrlRegistry
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/material/getall", "/api/panne/get").permitAll()
+                                .requestMatchers("/api/historic/{id}/panne/pdf","/api/historic/all").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/api/person/**").hasRole("ADMIN")
                                 .requestMatchers("/api/material/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/api/material/getall").hasAnyRole("ADMIN","USER")
