@@ -21,9 +21,9 @@ public class MaterialService {
         return materialRepo.findById(id).orElseThrow();
     }
 
-    public void addMaterial(Material material) {
+    public Material addMaterial(Material material) {
         material.setEtat(MaterialEtat.NEW);
-        materialRepo.save(material);
+        return materialRepo.save(material);
     }
 
     public Material updateMaterial(Material material , Integer id) {
@@ -35,8 +35,9 @@ public class MaterialService {
         return materialRepo.save(material1);
     }
 
-    public void deleteMaterial(Integer id) {
+    public String deleteMaterial(Integer id) {
         materialRepo.deleteById(id);
+        return "Material deleted";
     }
 
     public long getTotalMaterials() {

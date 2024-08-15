@@ -16,6 +16,15 @@ import java.util.List;
 @Builder
 @Entity
 public class Material {
+
+    public Material(String name, String description, MaterialEtat etat, LocalDate insert_date, User user) {
+        this.name = name;
+        this.description = description;
+        this.etat = etat;
+        this.insert_date = insert_date;
+        this.user = user;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
